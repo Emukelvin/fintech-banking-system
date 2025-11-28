@@ -37,7 +37,7 @@ class JwtTokenServiceTest {
 
         // Then
         assertNotNull(token);
-        assertTrue(token.split("\\.").length == 3); // JWT has 3 parts
+        assertEquals(3, token.split("\\.").length, "JWT should have 3 parts separated by dots");
     }
 
     @Test
@@ -51,7 +51,7 @@ class JwtTokenServiceTest {
 
         // Then
         assertNotNull(token);
-        assertTrue(token.split("\\.").length == 3);
+        assertEquals(3, token.split("\\.").length, "JWT should have 3 parts separated by dots");
     }
 
     @Test

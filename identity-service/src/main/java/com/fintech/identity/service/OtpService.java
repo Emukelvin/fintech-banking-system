@@ -45,7 +45,7 @@ public class OtpService {
         OtpVerification otpVerification = OtpVerification.builder()
                 .email(email)
                 .phoneNumber(phoneNumber)
-                .otpCode(otp) // In production, this should NOT be stored in plain text
+                .otpCode("") // OTP code is not stored - only hash is stored for security
                 .otpHash(otpHash)
                 .purpose(purpose)
                 .expiresAt(LocalDateTime.now().plusMinutes(otpExpirationMinutes))

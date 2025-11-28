@@ -86,8 +86,8 @@ public class AuthenticationService {
         }
 
         // Generate OTP for email verification
-        String otp = otpService.generateOtp(savedUser.getEmail(), savedUser.getPhoneNumber(), OtpPurpose.REGISTRATION);
-        logger.info("OTP generated for registration: {} (DEV ONLY - remove in production)", otp);
+        otpService.generateOtp(savedUser.getEmail(), savedUser.getPhoneNumber(), OtpPurpose.REGISTRATION);
+        logger.debug("OTP generated for user registration verification");
 
         // Publish user registration event
         userEventProducer.sendUserRegisteredEvent(savedUser);
@@ -143,8 +143,8 @@ public class AuthenticationService {
 
         // Check if MFA is required
         if (user.getMfaEnabled()) {
-            String otp = otpService.generateOtp(email, null, OtpPurpose.LOGIN);
-            logger.info("MFA OTP generated for login: {} (DEV ONLY)", otp);
+            otpService.generateOtp(email, null, OtpPurpose.LOGIN);
+            logger.debug("MFA OTP generated for user: {}", email);
 
             return LoginResponse.builder()
                     .userId(user.getId())
@@ -159,8 +159,8 @@ public class AuthenticationService {
 
         // Check if email verification is pending
         if (user.getStatus() == UserStatus.PENDING_VERIFICATION) {
-            String otp = otpService.generateOtp(email, null, OtpPurpose.REGISTRATION);
-            logger.info("Verification OTP regenerated: {} (DEV ONLY)", otp);
+            otpService.generateOtp(email, null, OtpPurpose.REGISTRATION);
+            logger.debug("Verification OTP regenerated for user: {}", email);
 
             return LoginResponse.builder()
                     .userId(user.getId())

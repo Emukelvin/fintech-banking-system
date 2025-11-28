@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: identity-service-test
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+
+  flyway:
+    enabled: false
+
+  data:
+    redis:
+      enabled: false
+
+  kafka:
+    enabled: false
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+# JWT Configuration
+jwt:
+  secret: test-256-bit-secret-key-here-must-be-at-least-32-characters-long
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000
+
+# OTP Configuration
+otp:
+  expiration-minutes: 5
+  length: 6
+
+# Rate Limiting Configuration
+rate-limit:
+  requests-per-minute: 100
+  login-attempts-per-minute: 10
+
+# Fraud Detection Configuration
+fraud-detection:
+  enabled: true
+  velocity-check:
+    enabled: true
+    max-login-attempts: 5
+    time-window-minutes: 15
+  geo-ip:
+    enabled: false
+
+# Logging
+logging:
+  level:
+    com.fintech.identity: DEBUG
